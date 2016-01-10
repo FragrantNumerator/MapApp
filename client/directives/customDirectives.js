@@ -29,15 +29,16 @@ renderMap.directive('renderMap', function(){
 
         initMap();
 
-        for (var i = 0; i < mapMarkers.length; i++) {
+        for (var i = 0; i < mapMarkers.length; i++) { //do we need to use mapMarkers?? -egan
          mapMarkers[i].setMap(null);
         }
         //go through each tweet and attribute its text/location attributes to a pin on the map
         angular.forEach(scope.tweets.data, function(tweet){
+
           //determine map marker location/shape for each tweet
           var tweetLocation = new google.maps.LatLng(tweet["location"][0],tweet["location"][1]);
           var tweetMarker = new google.maps.Marker({
-          position: tweetLocation,
+            position: tweetLocation,
             map: map
           });
 
@@ -59,14 +60,20 @@ renderMap.directive('renderMap', function(){
           tweetMarker.addListener('mouseout', function () {
             markerInfoWindow.close();
           });
-          tweetMarker.setMap(map, tweetLocation, tweetContent);
-          },true);
-          
+          tweetMarker.setMap(map, tweetLocation, tweetContent);//need to user tweetLocation? / tweetContent here???? -egan
+
           //getting rid of the tweet whose contents have just been rendered (we do not want to go through the array multiple times)
           var renderedTweet = scope.tweets.data.shift();
           scope.renderedTweets.push(renderedTweet);
           //history of rendered tweets stored in an array
 
+          //this sets the limit for tweets on the
+          if(scope.renderedTweets.length > 5000) {
+            scope.renderedTweets.shift();
+          }
+        }
+        ,true);
+          
         });   
       };
   
