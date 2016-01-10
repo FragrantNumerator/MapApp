@@ -91,6 +91,6 @@ app.service('httpService', ['$http', function ($http) {
     //   }, function (error) {
 
     //   })
-  }
+  };
 
 }]);
